@@ -18,8 +18,14 @@ class Parser
     split_element[position]
   end
 
+  def split_element_space_shift(index)
+    split_element = @array[index].split(' ')
+    split_element.shift
+    split_element.join(' ')
+  end
+
   def set_verb
-    verb = @array[0].split(' ').first
+    split_element_space(0, 0)
   end
 
   def set_path
@@ -35,8 +41,8 @@ class Parser
   end
 
   def set_address
-    split_element = @array[1].split(':')
-    address = split_element[1].strip
+    address = split_element_colon(1, 1)
+    address.strip
   end
 
   def set_port
@@ -48,9 +54,7 @@ class Parser
   end
 
   def set_user_agent_info
-    split_element = @array[2].split(' ')
-    split_element.shift
-    user_agent_info = split_element.join(' ')
+    split_element_space_shift(2)
   end
 
   def set_accept_title
@@ -74,9 +78,7 @@ class Parser
   end
 
   def set_accept_encoding_info
-    split_element = @array[5].split(' ')
-    split_element.shift
-    accept_encoding_info = split_element.join(' ')
+    split_element_space_shift(5)
   end
 
   def set_DNT_title

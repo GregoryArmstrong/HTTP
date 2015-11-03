@@ -18,12 +18,12 @@ class Experiment
     parser = Parser.new(request_lines)
     request_counter += 1
     output_hash = parser.parse_all
+
     puts "Got this request:"
     puts request_lines.inspect
 
     puts "Sending response."
     response_2 = "<p>Hello, World! (#{request_counter})</p>"
-
     storage = []
     output_hash.each_pair do |key, value|
       storage << "#{key}: #{value}"
