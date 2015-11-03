@@ -1,6 +1,7 @@
 require 'socket'
 require 'pry'
 require './parser'
+require './request_handler'
 
 class Server
 
@@ -8,29 +9,28 @@ class Server
   request_counter = 0
   client = tcp_server.accept
 
+
   loop do
 
     puts "Ready for a request"
+    request_counter += 1
     request_lines = []
     while line = client.gets and !line.chomp.empty?
       request_lines << line.chomp
     end
+
     parser = Parser.new(request_lines)
-    request_counter += 1
-    output_hash = parser.parse_all
+    rh = RequestHandler.new(parser)
+
+    # output_hash = parser.parse_all
 
     puts "Got this request:"
     puts request_lines.inspect
 
     puts "Sending response."
     response_2 = "<p>Hello, World! (#{request_counter})</p>"
-    storage = []
-    output_hash.each_pair do |key, value|
-      storage << "#{key}: #{value}"
-    end
-    formatted_storage = "<pre>" + storage.join("\n") + "</pre>"
 
-    output = "<html><head></head><body>#{response_2}#{formatted_storage}</body></html>"
+    output = "<html><head></head><body>#{response_2}#{rh.output}</body></html>"
     headers = ["http/1.1 200 ok",
               "date: #{Time.now.strftime('%a, %e %b %Y %H:%M:%S %z')}",
               "server: ruby",
