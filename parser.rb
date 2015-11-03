@@ -8,23 +8,30 @@ class Parser
     parse_all_info
   end
 
+  def split_element_colon(index, position)
+    split_element = @array[index].split(':')
+    split_element[position]
+  end
+
+  def split_element_space(index, position)
+    split_element = @array[index].split(' ')
+    split_element[position]
+  end
+
   def set_verb
     verb = @array[0].split(' ').first
   end
 
   def set_path
-    split_element = @array[0].split(' ')
-    path = split_element[1]
+    split_element_space(0, 1)
   end
 
   def set_protocol
-    split_element = @array[0].split(' ')
-    protocol = split_element[2]
+    split_element_space(0, 2)
   end
 
   def set_host
-    split_element = @array[1].split(':')
-    host = split_element[0]
+    split_element_colon(1, 0)
   end
 
   def set_address
@@ -33,13 +40,11 @@ class Parser
   end
 
   def set_port
-    split_element = @array[1].split(':')
-    port = split_element[2]
+    split_element_colon(1, 2)
   end
 
   def set_user_agent_title
-    split_element = @array[2].split(':')
-    user_agent_title = split_element[0]
+    split_element_colon(2, 0)
   end
 
   def set_user_agent_info
@@ -49,28 +54,23 @@ class Parser
   end
 
   def set_accept_title
-    split_element = @array[3].split(':')
-    accept_title = split_element[0]
+    split_element_colon(3, 0)
   end
 
   def set_accept_info
-    split_element = @array[3].split(' ')
-    accept_info = split_element[1]
+    split_element_space(3, 1)
   end
 
   def set_accept_language_title
-    split_element = @array[4].split(':')
-    accept_language = split_element[0]
+    split_element_colon(4, 0)
   end
 
   def set_accept_language_info
-    split_element = @array[4].split(' ')
-    accept_language_info = split_element[1]
+    split_element_space(4, 1)
   end
 
   def set_accept_encoding_title
-    split_element = @array[5].split(':')
-    accept_encoding_title = split_element[0]
+    split_element_colon(5, 0)
   end
 
   def set_accept_encoding_info
@@ -80,33 +80,27 @@ class Parser
   end
 
   def set_DNT_title
-    split_element = @array[6].split(':')
-    dnt_title = split_element[0]
+    split_element_colon(6, 0)
   end
 
   def set_DNT_info
-    split_element = @array[6].split(' ')
-    dnt_info = split_element[1]
+    split_element_space(6, 1)
   end
 
   def set_connection_title
-    split_element = @array[7].split(':')
-    connection_title = split_element[0]
+    split_element_colon(7, 0)
   end
 
   def set_connection_info
-    split_element = @array[7].split(' ')
-    connection_info = split_element[1]
+    split_element_space(7, 1)
   end
 
   def set_cache_control_title
-    split_element = @array[8].split(':')
-    cache_control_title = split_element[0]
+    split_element_colon(8, 0)
   end
 
   def set_cache_control_info
-    split_element = @array[8].split(' ')
-    cache_control_info = split_element[1]
+    split_element_space(8, 1)
   end
 
   def parse_all_info
