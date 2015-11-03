@@ -15,7 +15,8 @@ class HttpExperimentTest < Minitest::Test
   def test_counter_counts
   end
 
-  def test_it_
+  def test_it
+  end
 
 
 
