@@ -2,7 +2,7 @@ require 'minitest'
 require 'minitest/autorun'
 require 'minitest/pride'
 require 'pry'
-require './http_experiment'
+require './server'
 
 class ServerTest < Minitest::Test
 
