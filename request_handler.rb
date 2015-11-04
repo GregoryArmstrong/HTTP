@@ -16,11 +16,41 @@ class RequestHandler
       hello_world
     elsif @path == "/datetime"
       date_time
+    elsif @path.include?("/word_search")
+      dictionary
     else
       @path == "/shutdown"
       shut_down
     end
   end
+
+  def dictionary
+    dictionary = File.read("/usr/share/dict/words")
+    analyzed_words = []
+    split_path_once = @path.split("&")
+    split_path_twice = split_path_once.map do |element|
+      element.split("=")
+    end
+    split_path_twice.each do |element|
+      if dictionary.include?(element[1])
+        analyzed_words << "#{element[1].upcase} is a known word!"
+      else
+        analyzed_words << "#{element[1].upcase} is not a known word!"
+      end
+    end
+    formatted_analyzed_words = analyzed_words.each do |thing|
+      puts "#{thing}\n"
+    end
+    @output = "<html><head></head><body><pre>#{formatted_analyzed_words.join("\n")}</pre></body></html>"
+  end
+
+
+  #   if dictionary.include?(split_path[1])
+  #     @output = "<html><head></head><body><pre>#{split_path[1].upcase} is a known word!</pre></body></html>"
+  #   else
+  #     @output = "<html><head></head><body><pre>#{split_path[1].upcase} is not a known word!</pre></body></html>"
+  #   end
+  # end
 
   def debugger
     output_hash = @parser.parse_all

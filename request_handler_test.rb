@@ -108,4 +108,33 @@ class RequestHandlerTest < Minitest::Test
     assert_equal "<html><head></head><body><pre>Total Requests: #{@request_counter}</pre></body></html>", rh.output
   end
 
+  def test_handler_can_read_path_word_search_and_assign_output
+    parser_1 = Parser.new(["GET /word_search?word=cheese HTTP/1.1",
+        "Host: 127.0.0.1:9292",
+        "User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10; rv:41.0) Gecko/20100101 Firefox/41.0",
+        "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+        "Accept-Language: en-US,en;q=0.5",
+        "Accept-Encoding: gzip, deflate",
+        "DNT: 1",
+        "Connection: keep-alive",
+        "Cache-Control: max-age=0"])
+    rh = RequestHandler.new(parser_1)
+
+    assert_equal "<html><head></head><body><pre>CHEESE is a known word!</pre></body></html>", rh.output
+  end
+
+  def test_handler_can_read_path_word_search_and_assign_output_if_not_word
+    parser_1 = Parser.new(["GET /word_search?word=notcheese HTTP/1.1",
+        "Host: 127.0.0.1:9292",
+        "User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10; rv:41.0) Gecko/20100101 Firefox/41.0",
+        "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+        "Accept-Language: en-US,en;q=0.5",
+        "Accept-Encoding: gzip, deflate",
+        "DNT: 1",
+        "Connection: keep-alive",
+        "Cache-Control: max-age=0"])
+    rh = RequestHandler.new(parser_1)
+
+    assert_equal "<html><head></head><body><pre>NOTCHEESE is not a known word!</pre></body></html>", rh.output
+  end
 end
