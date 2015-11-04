@@ -25,7 +25,9 @@ class Parser
   end
 
   def set_verb
-    split_element_space(0, 0)
+    split_element = @array[0].split(' ')
+    split_element[1].strip
+    split_element[0]
   end
 
   def set_path
@@ -98,11 +100,17 @@ class Parser
   end
 
   def set_cache_control_title
-    split_element_colon(8, 0)
+    if @array[8].nil?
+    else
+      split_element_colon(8, 0)
+    end
   end
 
   def set_cache_control_info
-    split_element_space(8, 1)
+    if @array[8].nil?
+    else
+      split_element_space(8, 1)
+    end
   end
 
   def parse_all_info
