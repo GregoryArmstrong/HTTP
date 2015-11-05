@@ -1,6 +1,6 @@
 class Parser
 
-  attr_accessor :parse_all
+  attr_accessor :parse_all, :array
 
   def initialize(array)
     @array = array

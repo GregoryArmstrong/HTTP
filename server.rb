@@ -5,10 +5,12 @@ require './request_handler'
 
 class Server
 
-  attr_accessor :request_counter
+  attr_accessor :request_counter, :guess_counter, :secret_number, :guesses
 
   tcp_server = TCPServer.new(9292)
   @request_counter = 0
+  @guess_counter = 0
+  @guesses = []
   client = tcp_server.accept
 
   loop do
@@ -30,10 +32,20 @@ class Server
     @request_counter += 1
 
     parser = Parser.new(request_lines)
-    if parser.parse_all["Verb"] == "GET"
-      rh = RequestHandler.new(parser, @request_counter)
-    else
+    binding.pry
+    if parser.array[0].include?("---")
+      g = Game.new(parser, @secret_number)
+      @guess_counter += 1
+      @guesses << g.guesses
+    elsif parser.parse_all["Path"] == "/game"
+      g = Game.new(parser, @secret_number)
+      @guess_counter += 1
+      @guesses << g.guesses
+    elsif parser.parse_all["Path"] == "/start_game"
       g = Game.new(parser)
+      @secret_number = g.secret_number
+    else
+      rh = RequestHandler.new(parser, @request_counter)
     end
 
 
