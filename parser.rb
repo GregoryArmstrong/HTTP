@@ -5,6 +5,9 @@ class Parser
   def initialize(array)
     @array = array
     @parse_all = {}
+    if @array[0].include?("---")
+      @array.shift
+    end
     parse_all_info
   end
 
