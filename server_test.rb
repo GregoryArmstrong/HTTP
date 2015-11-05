@@ -12,13 +12,9 @@ class ServerTest < Minitest::Test
     assert s
   end
 
-  def test_counter_counts
+  def test_request_counter_starts_at_0
+    s = Server.new
+    assert_equal 0, @request_counter
   end
-
-  def test_it
-  end
-
-
-
 
 end

@@ -26,10 +26,9 @@ class Parser
     split_element.shift
     split_element.join(' ')
   end
- ###set verb slightly broken due to strip
+
   def set_verb
     split_element = @array[0].split(' ')
-    # split_element[1].strip
     split_element[0]
   end
 
@@ -53,7 +52,7 @@ class Parser
   def set_port
     split_element_colon(1, 2)
   end
-###agent title possibly broken similar to set verb
+
   def set_user_agent_title
     split_element_colon(2, 0)
   end
