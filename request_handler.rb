@@ -1,4 +1,5 @@
 require './dictionary'
+require './game'
 
 class RequestHandler
 
@@ -8,10 +9,28 @@ class RequestHandler
     @parser = parser
     @path = @parser.parse_all["Path"]
     @request_counter = request_counter
-    analyze_path
+    analyze_path_get
   end
 
-  def analyze_path
+  # def analyze_path
+  #   if @parser.parse_all["Verb"] == "GET"
+  #     analyze_path_get
+  #   # elsif @parser.parse_all["Verb"] == "POST"
+  #   #   analyze_path_post
+  #   # else
+  #   #   analyze_path_get
+  #   end
+  # end
+
+  # def analyze_path_post
+  #   puts "Path Post Activated"
+  #   g = Game.new(@path)
+  #   @secret_number = g.secret_number
+  #   @guess_counter = g.guess_counter
+  #   @output = "<html><head></head><body><pre>#{g.game_output}</pre></body></html>"
+  # end
+
+  def analyze_path_get
     if @path == "/"
       debugger
     elsif @path == "/hello"
@@ -38,15 +57,15 @@ class RequestHandler
   end
 
   def hello_world
-    @output = "<html><head></head><body><pre>Hello, World! (#{@request_counter})</pre></body></html>"
+    @output = "<html><head></head><body><pre>Hello, World! (#{@request_counter})\r\n\r\n#{debugger}</pre></body></html>"
   end
 
   def date_time
-    @output = "<html><head></head><body><pre>#{Time.now.strftime('%H:%M%p on %A %B %e, %Y')}</pre></body></html>"
+    @output = "<html><head></head><body><pre>#{Time.now.strftime('%H:%M%p on %A %B %e, %Y')}\r\n\r\n#{debugger}</pre></body></html>"
   end
 
   def shut_down
-    @output = "<html><head></head><body><pre>Total Requests: #{@request_counter}</pre></body></html>"
+    @output = "<html><head></head><body><pre>Total Requests: #{@request_counter}\r\n\r\n#{debugger}</pre></body></html>"
   end
 
 end

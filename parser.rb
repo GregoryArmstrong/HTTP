@@ -26,7 +26,7 @@ class Parser
  ###set verb slightly broken due to strip
   def set_verb
     split_element = @array[0].split(' ')
-    split_element[1].strip
+    # split_element[1].strip
     split_element[0]
   end
 
@@ -113,24 +113,40 @@ class Parser
     end
   end
 
+  def set_guess_number
+    @array.last.to_i
+  end
+
   def parse_all_info
-    if @array[0].include?("POST")
-      puts "POST Found!"
+    if @array[0].include?("GET")
+      parse_get
     else
-      @parse_all["Verb"] = set_verb
-      @parse_all["Path"] = set_path
-      @parse_all["Protocol"] = set_protocol
-      @parse_all[set_host] = set_address
-      @parse_all["Port"] = set_port
-      @parse_all[set_user_agent_title] = set_user_agent_info
-      @parse_all[set_accept_title] = set_accept_info
-      @parse_all[set_accept_language_title] = set_accept_language_info
-      @parse_all[set_accept_encoding_title] = set_accept_encoding_info
-      @parse_all[set_DNT_title] = set_DNT_info
-      @parse_all[set_connection_title] = set_connection_info
-      @parse_all[set_cache_control_title] = set_cache_control_info
-      @parse_all
+      parse_post
     end
+  end
+
+  def parse_post
+    @array[0].include?("POST")
+    puts "POST Found!"
+    @parse_all["Verb"] = set_verb
+    @parse_all["Path"] = set_path
+    @parse_all["Guess Number"] = set_guess_number
+  end
+
+  def parse_get
+    @parse_all["Verb"] = set_verb
+    @parse_all["Path"] = set_path
+    @parse_all["Protocol"] = set_protocol
+    @parse_all[set_host] = set_address
+    @parse_all["Port"] = set_port
+    @parse_all[set_user_agent_title] = set_user_agent_info
+    @parse_all[set_accept_title] = set_accept_info
+    @parse_all[set_accept_language_title] = set_accept_language_info
+    @parse_all[set_accept_encoding_title] = set_accept_encoding_info
+    @parse_all[set_DNT_title] = set_DNT_info
+    @parse_all[set_connection_title] = set_connection_info
+    @parse_all[set_cache_control_title] = set_cache_control_info
+    @parse_all
   end
 
 end
