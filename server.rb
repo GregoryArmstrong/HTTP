@@ -11,6 +11,7 @@ class Server
   @request_counter = 0
   @guess_counter = 0
   @server_guesses = []
+  @secret_number = 0
   client = tcp_server.accept
 
   loop do
@@ -36,13 +37,17 @@ class Server
     if parser.array[0].include?("---")
       g = Game.new(parser, @secret_number, @server_guesses)
       @guess_counter += 1
-      @server_guesses << g.guesses[-1]
+      if g.guesses[-1] != nil
+        @server_guesses << g.guesses[-1]
+      end
     elsif parser.parse_all["Path"] == "/game"
       g = Game.new(parser, @secret_number, @server_guesses)
       @guess_counter += 1
-      @server_guesses << g.guesses[-1]
+      if g.guesses[-1] != nil
+        @server_guesses << g.guesses[-1]
+      end
     elsif parser.parse_all["Path"] == "/start_game"
-      g = Game.new(parser, @server_guesses)
+      g = Game.new(parser, @secret_number, @server_guesses)
       @secret_number = g.secret_number
     else
       rh = RequestHandler.new(parser, @request_counter)
@@ -62,8 +67,6 @@ class Server
     else
       content_output = g.game_output
     end
-
-
 
     headers = ["http/1.1 200 ok",
               "date: #{Time.now.strftime('%a, %e %b %Y %H:%M:%S %z')}",
@@ -85,8 +88,6 @@ class Server
       puts ["Wrote this response:", headers, content_output].join("\n")
     end
     client.puts content_output
-
-
 
     if parser.parse_all["Path"] == "/shutdown"
       break

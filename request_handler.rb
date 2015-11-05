@@ -12,24 +12,6 @@ class RequestHandler
     analyze_path_get
   end
 
-  # def analyze_path
-  #   if @parser.parse_all["Verb"] == "GET"
-  #     analyze_path_get
-  #   # elsif @parser.parse_all["Verb"] == "POST"
-  #   #   analyze_path_post
-  #   # else
-  #   #   analyze_path_get
-  #   end
-  # end
-
-  # def analyze_path_post
-  #   puts "Path Post Activated"
-  #   g = Game.new(@path)
-  #   @secret_number = g.secret_number
-  #   @guess_counter = g.guess_counter
-  #   @output = "<html><head></head><body><pre>#{g.game_output}</pre></body></html>"
-  # end
-
   def analyze_path_get
     if @path == "/"
       debugger

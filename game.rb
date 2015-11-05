@@ -2,7 +2,7 @@ class Game
 
   attr_accessor :secret_number, :path, :game_output, :guesses
 
-  def initialize(parser, secret_number=nil, guesses)
+  def initialize(parser, secret_number, guesses)
     @parser = parser
     @path = parser.parse_all["Path"]
     @secret_number = secret_number
@@ -17,7 +17,6 @@ class Game
   end
 
   def redirected_message
-    binding.pry
     if @guesses[-1] == @secret_number
       @game_output = "You chose #{@secret_number}"
     elsif @guesses[-1] > @secret_number
@@ -26,7 +25,6 @@ class Game
       @game_output = "You chose #{@guesses.last}, your guess is too low."
     end
   end
-
 
   def start_game
     @game_output = "<html><head></head><body><pre>Good luck!</pre></body></html>"
@@ -38,13 +36,11 @@ class Game
   end
 
   def make_guess
-    @guesses = []
     if @parser.parse_all["Guess Number"] == @secret_number
       winner_output = "Correct!"
       @game_output = "<html><head></head><body><pre>#{winner_output}</html>"
     else
       @guesses << @parser.parse_all["Guess Number"]
-      binding.pry
       if @parser.parse_all["Guess Number"] > @secret_number
         @game_output = "<html><head></head><body><pre>You guessed too high.</pre></body></html>"
       elsif @parser.parse_all["Guess Number"] < @secret_number
