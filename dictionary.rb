@@ -1,6 +1,6 @@
 class Dictionary
 
-  attr_accessor :output
+  attr_accessor :output, :string
 
   def initialize(string)
     @string = string
@@ -27,7 +27,6 @@ class Dictionary
       end
     end
   end
-
 
   def word_analyzer
     data = split_word_search_path(@string)
